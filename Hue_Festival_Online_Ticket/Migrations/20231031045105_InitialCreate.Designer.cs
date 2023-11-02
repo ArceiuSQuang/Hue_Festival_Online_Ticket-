@@ -4,6 +4,7 @@ using Hue_Festival_Online_Ticket.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hue_Festival_Online_Ticket.Migrations
 {
     [DbContext(typeof(Hue_Festival_Context))]
-    partial class Hue_Festival_ContextModelSnapshot : ModelSnapshot
+    [Migration("20231031045105_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,23 +41,8 @@ namespace Hue_Festival_Online_Ticket.Migrations
                     b.Property<int?>("Diadiem_id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Doan_id")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("Fdate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("Nhom_id")
-                        .HasColumnType("int");
-
                     b.Property<int?>("Price")
                         .HasColumnType("int");
-
-                    b.Property<DateTime?>("Tdate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Time")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Type_inoff")
                         .HasColumnType("int");
@@ -66,10 +53,6 @@ namespace Hue_Festival_Online_Ticket.Migrations
                     b.HasKey("ID_chuongtrinh");
 
                     b.HasIndex("Diadiem_id");
-
-                    b.HasIndex("Doan_id");
-
-                    b.HasIndex("Nhom_id");
 
                     b.ToTable("Chuongtrinh");
                 });
@@ -190,32 +173,6 @@ namespace Hue_Festival_Online_Ticket.Migrations
                     b.ToTable("DiadiemSoatve");
                 });
 
-            modelBuilder.Entity("Hue_Festival_Online_Ticket.Data.DiaDiemYeuThichDb", b =>
-                {
-                    b.Property<int>("ID_diadiem_yeuthich")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_diadiem_yeuthich"), 1L, 1);
-
-                    b.Property<int?>("Diadiem_id")
-                        .HasColumnType("int");
-
-                    b.Property<bool?>("IsWish")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("User_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID_diadiem_yeuthich");
-
-                    b.HasIndex("Diadiem_id");
-
-                    b.HasIndex("User_id");
-
-                    b.ToTable("DiaDiemYeuThichDb");
-                });
-
             modelBuilder.Entity("Hue_Festival_Online_Ticket.Data.DoanDb", b =>
                 {
                     b.Property<int>("ID_doan")
@@ -272,6 +229,43 @@ namespace Hue_Festival_Online_Ticket.Migrations
                     b.HasIndex("User_id");
 
                     b.ToTable("HotroUser");
+                });
+
+            modelBuilder.Entity("Hue_Festival_Online_Ticket.Data.LichDienDb", b =>
+                {
+                    b.Property<int>("ID_lichdien")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_lichdien"), 1L, 1);
+
+                    b.Property<int?>("Chuongtrinh_id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Doan_id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Fdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("Nhom_id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Tdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Time")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID_lichdien");
+
+                    b.HasIndex("Chuongtrinh_id");
+
+                    b.HasIndex("Doan_id");
+
+                    b.HasIndex("Nhom_id");
+
+                    b.ToTable("Lichdien");
                 });
 
             modelBuilder.Entity("Hue_Festival_Online_Ticket.Data.MenuDb", b =>
@@ -470,23 +464,7 @@ namespace Hue_Festival_Online_Ticket.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("FK_ChuongTrinhDb_Diadiem");
 
-                    b.HasOne("Hue_Festival_Online_Ticket.Data.DoanDb", "Doan")
-                        .WithMany("list_Chuongtrinh")
-                        .HasForeignKey("Doan_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("FK_ChuongTrinhDb_Doan");
-
-                    b.HasOne("Hue_Festival_Online_Ticket.Data.NhomDb", "Nhom")
-                        .WithMany("list_Chuongtrinh")
-                        .HasForeignKey("Nhom_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("FK_ChuongTrinhDb_Nhom");
-
                     b.Navigation("Diadiem");
-
-                    b.Navigation("Doan");
-
-                    b.Navigation("Nhom");
                 });
 
             modelBuilder.Entity("Hue_Festival_Online_Ticket.Data.ChuongTrinhImageDb", b =>
@@ -541,25 +519,6 @@ namespace Hue_Festival_Online_Ticket.Migrations
                     b.Navigation("Chuongtrinh");
                 });
 
-            modelBuilder.Entity("Hue_Festival_Online_Ticket.Data.DiaDiemYeuThichDb", b =>
-                {
-                    b.HasOne("Hue_Festival_Online_Ticket.Data.DiaDiemDb", "Diadiem")
-                        .WithMany("list_Diadiemyeuthich")
-                        .HasForeignKey("Diadiem_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("FK_DiaDiemYeuThichDb_Diadiem");
-
-                    b.HasOne("Hue_Festival_Online_Ticket.Data.UserDb", "User")
-                        .WithMany("list_Diadiemyeuthich")
-                        .HasForeignKey("User_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("FK_DiaDiemYeuThichDb_User");
-
-                    b.Navigation("Diadiem");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Hue_Festival_Online_Ticket.Data.HoTroUserDb", b =>
                 {
                     b.HasOne("Hue_Festival_Online_Ticket.Data.HoTroDb", "Hotro")
@@ -577,6 +536,33 @@ namespace Hue_Festival_Online_Ticket.Migrations
                     b.Navigation("Hotro");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Hue_Festival_Online_Ticket.Data.LichDienDb", b =>
+                {
+                    b.HasOne("Hue_Festival_Online_Ticket.Data.ChuongTrinhDb", "Chuongtrinh")
+                        .WithMany("list_Lichdien")
+                        .HasForeignKey("Chuongtrinh_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("FK_LichDienDb_Chuongtrinh");
+
+                    b.HasOne("Hue_Festival_Online_Ticket.Data.DoanDb", "Doan")
+                        .WithMany("list_Lichdien")
+                        .HasForeignKey("Doan_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("FK_LichDienDb_Doan");
+
+                    b.HasOne("Hue_Festival_Online_Ticket.Data.NhomDb", "Nhom")
+                        .WithMany("list_Lichdien")
+                        .HasForeignKey("Nhom_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("FK_LichDienDb_Nhom");
+
+                    b.Navigation("Chuongtrinh");
+
+                    b.Navigation("Doan");
+
+                    b.Navigation("Nhom");
                 });
 
             modelBuilder.Entity("Hue_Festival_Online_Ticket.Data.SubMenuDb", b =>
@@ -647,19 +633,19 @@ namespace Hue_Festival_Online_Ticket.Migrations
 
                     b.Navigation("list_Image");
 
+                    b.Navigation("list_Lichdien");
+
                     b.Navigation("list_Ve");
                 });
 
             modelBuilder.Entity("Hue_Festival_Online_Ticket.Data.DiaDiemDb", b =>
                 {
                     b.Navigation("list_Chuongtrinh");
-
-                    b.Navigation("list_Diadiemyeuthich");
                 });
 
             modelBuilder.Entity("Hue_Festival_Online_Ticket.Data.DoanDb", b =>
                 {
-                    b.Navigation("list_Chuongtrinh");
+                    b.Navigation("list_Lichdien");
                 });
 
             modelBuilder.Entity("Hue_Festival_Online_Ticket.Data.HoTroDb", b =>
@@ -674,7 +660,7 @@ namespace Hue_Festival_Online_Ticket.Migrations
 
             modelBuilder.Entity("Hue_Festival_Online_Ticket.Data.NhomDb", b =>
                 {
-                    b.Navigation("list_Chuongtrinh");
+                    b.Navigation("list_Lichdien");
                 });
 
             modelBuilder.Entity("Hue_Festival_Online_Ticket.Data.SubMenuDb", b =>
@@ -692,8 +678,6 @@ namespace Hue_Festival_Online_Ticket.Migrations
             modelBuilder.Entity("Hue_Festival_Online_Ticket.Data.UserDb", b =>
                 {
                     b.Navigation("list_ChuongtrinhYeuthich");
-
-                    b.Navigation("list_Diadiemyeuthich");
 
                     b.Navigation("list_HotroUser");
 

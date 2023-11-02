@@ -14,8 +14,10 @@ namespace Hue_Festival_Online_Ticket.Mapper
             CreateMap<MenuDb, MenuResponeDTO>();
             CreateMap<SubMenuDb, SubMenuResponeDTO>();
             CreateMap<DiaDiemDb, DiadiemResponeDTO>();
+            CreateMap<DiaDiemDb, DiembanveResponeDTO>();
+            CreateMap<TinTucDb, TintucResponeDTO>();
+            CreateMap<TinTucImageDb, ChuongtrinhImageResponeDTO>();
         }
 
     }
 }
-
